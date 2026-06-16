@@ -1,0 +1,6 @@
+{
+  "name": "Al-Hafiz Islamic Foundation",
+  "description": "AL - HAFIZ ISLAMIC FOUNDATION FOR DA'AWAH AND SERVICE TO HUMANITY - School and Orphanage Portal Kaduna, Nigeria",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
