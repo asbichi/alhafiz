@@ -16,6 +16,7 @@ import { ImpactChart } from './components/ImpactChart';
 import { ImpactHighlights } from './components/ImpactHighlights';
 import { NewsletterForm } from './components/NewsletterForm';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 import { 
   initialGalleryItems, initialDonations, initialMessages, 
@@ -208,7 +209,9 @@ export default function App() {
               setActiveTab={setActiveTab}
             />
             <ImpactHighlights />
-            <ImpactChart />
+            <ErrorBoundary componentName="ImpactChart">
+              <ImpactChart />
+            </ErrorBoundary>
             <SuccessStories />
           </>
         )}
