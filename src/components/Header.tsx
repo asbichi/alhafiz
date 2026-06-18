@@ -109,18 +109,6 @@ export default function Header({ activeTab, setActiveTab, onDonateClick, isAdmin
             ))}
             
             {/* Quick dashboard shortcut if logged in */}
-            <button
-              onClick={() => setActiveTab('ADMIN')}
-              className={`px-4 py-2 rounded-md text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 ${
-                activeTab === 'ADMIN'
-                  ? 'bg-amber-600 text-white shadow-sm font-bold'
-                  : 'text-emerald-100 hover:text-white hover:bg-slate-800'
-              }`}
-              id="nav-tab-admin"
-            >
-              <LayoutDashboard className="w-3.5 h-3.5" />
-              <span>Admin Portal</span>
-            </button>
           </nav>
 
           {/* Core Donation Button and Actions */}
@@ -219,18 +207,6 @@ export default function Header({ activeTab, setActiveTab, onDonateClick, isAdmin
                 {item.label}
               </button>
             ))}
-            <button
-              onClick={() => {
-                setActiveTab('ADMIN');
-                setMobileMenuOpen(false);
-              }}
-              className={`py-2 px-3 rounded-lg text-left text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
-                activeTab === 'ADMIN' ? 'bg-amber-655 text-white' : 'text-slate-200 hover:bg-slate-800'
-              }`}
-            >
-              <LayoutDashboard className="w-4 h-4 text-amber-500" />
-              <span>Admin Portal</span>
-            </button>
           </div>
         </div>
       )}

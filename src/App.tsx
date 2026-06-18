@@ -316,7 +316,16 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 mt-8 pt-6 border-t border-slate-800 text-center text-[10px] text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
           <p>© {new Date().getFullYear()} {FOUNDATION_INFO.name}. All Rights Reservable.</p>
           <p className="flex items-center justify-center gap-1.5">
-            <span>Sealed with</span> <Heart className="w-3.5 h-3.5 fill-rose-600 text-rose-600 animate-pulse" /> <span>for Kaduna's Orphan Children</span>
+            <span>Sealed with</span> 
+            <Heart 
+              className="w-3.5 h-3.5 fill-rose-600 text-rose-600 animate-pulse cursor-pointer hover:scale-125 transition-transform" 
+              onClick={() => {
+                setActiveTab('ADMIN');
+                window.scrollTo(0, 0);
+              }}
+              title="Secure Staff Portal"
+            /> 
+            <span>for Kaduna's Orphan Children</span>
           </p>
         </div>
       </footer>
