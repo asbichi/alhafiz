@@ -54,7 +54,7 @@ export default function GraduationGallery({ galleryItems }: GraduationGalleryPro
             {years.map((year) => (
               <button
                 key={year}
-                onClick={() => setSelectedYear(year)}
+                onClick={() => setSelectedYear(year as number | 'ALL')}
                 className={`py-1.5 px-3.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
                   selectedYear === year 
                     ? 'bg-emerald-700 text-white shadow-sm' 

@@ -343,14 +343,15 @@ export default function App() {
           <p>© {new Date().getFullYear()} {FOUNDATION_INFO.name}. All Rights Reservable.</p>
           <p className="flex items-center justify-center gap-1.5">
             <span>Sealed with</span> 
-            <Heart 
-              className="w-3.5 h-3.5 fill-rose-600 text-rose-600 animate-pulse cursor-pointer hover:scale-125 transition-transform" 
-              onClick={() => {
-                setActiveTab('ADMIN');
-                window.scrollTo(0, 0);
-              }}
-              title="Secure Staff Portal"
-            /> 
+            <span title="Secure Staff Portal">
+              <Heart 
+                className="w-3.5 h-3.5 fill-rose-600 text-rose-600 animate-pulse cursor-pointer hover:scale-125 transition-transform" 
+                onClick={() => {
+                  setActiveTab('ADMIN');
+                  window.scrollTo(0, 0);
+                }}
+              />
+            </span>
             <span>for Kaduna's Orphan Children</span>
           </p>
         </div>

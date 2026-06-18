@@ -4,6 +4,7 @@ import { FOUNDATION_INFO } from '../data';
 import { ContactMessage } from '../types';
 import { SocialMediaPanel } from './SocialMediaPanel';
 import { OutreachMap } from './OutreachMap';
+import { ErrorBoundary } from './ErrorBoundary';
 
 interface ContactProps {
   onNewMessage: (msg: ContactMessage) => void;
@@ -252,7 +253,9 @@ export default function Contact({ onNewMessage }: ContactProps) {
       </div>
 
       {/* 3. Interactive Outreach Map */}
-      <OutreachMap />
+      <ErrorBoundary componentName="OutreachMap">
+        <OutreachMap />
+      </ErrorBoundary>
     </div>
   );
 }
