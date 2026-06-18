@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Heart, BookOpen, Shirt, Stethoscope, Sun, Users, ArrowRight } from 'lucide-react';
 import { SCHOOL_NEEDS } from '../data';
 
