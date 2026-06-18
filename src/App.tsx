@@ -53,46 +53,51 @@ export default function App() {
 
   // 1. Initial State Resolution from LocalStorage or seeded defaults
   useEffect(() => {
-    const storedDon = localStorage.getItem('alhafiz_donations');
-    const storedMsg = localStorage.getItem('alhafiz_messages');
-    const storedGal = localStorage.getItem('alhafiz_galleryItems');
-    const storedAnn = localStorage.getItem('alhafiz_announcements');
-    const storedVol = localStorage.getItem('alhafiz_volunteers');
+    // Helper to safely load and parse states
+    const safeLoad = <T,>(key: string, defaultValue: T): T => {
+      try {
+        const stored = localStorage.getItem(key);
+        if (stored) {
+          return JSON.parse(stored) as T;
+        }
+      } catch (err) {
+        console.error(`[LOCAL STORAGE] Recovery triggered for key: "${key}":`, err);
+      }
+      // If error or not stored, fallback to default value
+      localStorage.setItem(key, JSON.stringify(defaultValue));
+      return defaultValue;
+    };
 
-    if (storedDon) setDonations(JSON.parse(storedDon));
-    else {
-      setDonations(initialDonations);
-      localStorage.setItem('alhafiz_donations', JSON.stringify(initialDonations));
-    }
+    // Load Donations
+    setDonations(safeLoad<Donation[]>('alhafiz_donations', initialDonations));
 
-    if (storedMsg) setMessages(JSON.parse(storedMsg));
-    else {
-      setMessages(initialMessages);
-      localStorage.setItem('alhafiz_messages', JSON.stringify(initialMessages));
-    }
+    // Load Messages
+    setMessages(safeLoad<ContactMessage[]>('alhafiz_messages', initialMessages));
 
-    if (storedGal) {
-      const parsed = JSON.parse(storedGal);
-      const missing = initialGalleryItems.filter((item: any) => !parsed.some((p: any) => p.id === item.id));
-      const merged = [...missing, ...parsed];
-      setGalleryItems(merged);
-      localStorage.setItem('alhafiz_galleryItems', JSON.stringify(merged));
-    } else {
+    // Load Gallery Items safely with deep list merger
+    try {
+      const storedGal = localStorage.getItem('alhafiz_galleryItems');
+      if (storedGal) {
+        const parsed = JSON.parse(storedGal) as GalleryItem[];
+        const missing = initialGalleryItems.filter((item: any) => !parsed.some((p: any) => p.id === item.id));
+        const merged = [...missing, ...parsed];
+        setGalleryItems(merged);
+        localStorage.setItem('alhafiz_galleryItems', JSON.stringify(merged));
+      } else {
+        setGalleryItems(initialGalleryItems);
+        localStorage.setItem('alhafiz_galleryItems', JSON.stringify(initialGalleryItems));
+      }
+    } catch (err) {
+      console.error('[LOCAL STORAGE] Gallery items recovery triggered:', err);
       setGalleryItems(initialGalleryItems);
       localStorage.setItem('alhafiz_galleryItems', JSON.stringify(initialGalleryItems));
     }
 
-    if (storedAnn) setAnnouncements(JSON.parse(storedAnn));
-    else {
-      setAnnouncements(initialAnnouncements);
-      localStorage.setItem('alhafiz_announcements', JSON.stringify(initialAnnouncements));
-    }
+    // Load Announcements
+    setAnnouncements(safeLoad<Announcement[]>('alhafiz_announcements', initialAnnouncements));
 
-    if (storedVol) setVolunteers(JSON.parse(storedVol));
-    else {
-      setVolunteers(initialVolunteers);
-      localStorage.setItem('alhafiz_volunteers', JSON.stringify(initialVolunteers));
-    }
+    // Load Volunteers
+    setVolunteers(safeLoad<Volunteer[]>('alhafiz_volunteers', initialVolunteers));
   }, []);
 
   // 2. Helper methods to append or delete states asynchronously
