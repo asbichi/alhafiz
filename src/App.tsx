@@ -58,13 +58,29 @@ export default function App() {
       try {
         const stored = localStorage.getItem(key);
         if (stored) {
-          return JSON.parse(stored) as T;
+          const parsed = JSON.parse(stored);
+          if (parsed !== null && parsed !== undefined) {
+            // Ensure if default value is an array, the loaded one is too
+            if (Array.isArray(defaultValue)) {
+              if (Array.isArray(parsed)) {
+                return parsed as T;
+              } else {
+                console.warn(`[LOCAL STORAGE] Key "${key}" was stored but was not an array. Resetting.`);
+                throw new Error(`Expected array for key ${key}`);
+              }
+            }
+            return parsed as T;
+          }
         }
       } catch (err) {
         console.error(`[LOCAL STORAGE] Recovery triggered for key: "${key}":`, err);
       }
       // If error or not stored, fallback to default value
-      localStorage.setItem(key, JSON.stringify(defaultValue));
+      try {
+        localStorage.setItem(key, JSON.stringify(defaultValue));
+      } catch (e) {
+        console.error(`[LOCAL STORAGE] Failed to persist fallback for key: "${key}":`, e);
+      }
       return defaultValue;
     };
 
@@ -78,11 +94,16 @@ export default function App() {
     try {
       const storedGal = localStorage.getItem('alhafiz_galleryItems');
       if (storedGal) {
-        const parsed = JSON.parse(storedGal) as GalleryItem[];
-        const missing = initialGalleryItems.filter((item: any) => !parsed.some((p: any) => p.id === item.id));
-        const merged = [...missing, ...parsed];
-        setGalleryItems(merged);
-        localStorage.setItem('alhafiz_galleryItems', JSON.stringify(merged));
+        const parsed = JSON.parse(storedGal);
+        if (parsed && Array.isArray(parsed)) {
+          const missing = initialGalleryItems.filter((item: any) => !parsed.some((p: any) => p && p.id === item.id));
+          const merged = [...missing, ...parsed];
+          setGalleryItems(merged);
+          localStorage.setItem('alhafiz_galleryItems', JSON.stringify(merged));
+        } else {
+          setGalleryItems(initialGalleryItems);
+          localStorage.setItem('alhafiz_galleryItems', JSON.stringify(initialGalleryItems));
+        }
       } else {
         setGalleryItems(initialGalleryItems);
         localStorage.setItem('alhafiz_galleryItems', JSON.stringify(initialGalleryItems));
